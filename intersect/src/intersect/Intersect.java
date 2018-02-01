@@ -21,6 +21,7 @@ public class Intersect {
         int k = 1;
         int p [][] = new int [2][(int) Math.pow(10,k)];
         rnd(k,p);
+
         
         Arrays.sort(p[0]);
         Arrays.sort(p[1]);
@@ -53,8 +54,8 @@ public class Intersect {
         Random numbers = new Random();
         for(int i =0;i<Math.pow(10,k);i++){
 //          interval čísel pro generování 
-            p[0][i] = numbers.nextInt(100);
-            p[1][i] = numbers.nextInt(100);
+            p[0][i] = numbers.nextInt(10);
+            p[1][i] = numbers.nextInt(10);
         }
     }
     /** Metoda pro výběr vhodnější posloupnosti pro hledání
@@ -87,20 +88,22 @@ public class Intersect {
         return minmax;
     }
     public static int []vhodnost(int p[][], int minmax[]){
-        int idaprvek[] = new int [2];    
+        int idaprvek[] = new int [2];  
+        int j=0;
         if(minmax[0]==2){
             if(minmax[1] == 0){
                 int l = 0;
                 int r = p[1].length-1;
                 int m = p[0][p[0].length-1];
-                idaprvek[1] = vyhledavanimax(p,l,r,m);
+                j++;
+                idaprvek[1] = vyhledavanimax(p,l,r,m,j);
                 idaprvek[0] = 1;
             }
             else if(minmax[1] == 1){
                 int l = 0;
                 int r = p[0].length-1;
                 int m = p[1][p[1].length-1];
-                idaprvek[1] = vyhledavanimax(p,l,r,m);
+                idaprvek[1] = vyhledavanimax(p,l,r,m,j);
                 idaprvek[0] = 0;
             }
         }
@@ -112,9 +115,9 @@ public class Intersect {
                     }
                     else if(minmax[1] == 1-i){
                         int l = 0;
-                        int r = p[i].length-1;
+                        int r = p[i].length-1;                      
                         int m = p[1-i][p[1-i].length-1];
-                        idaprvek[1] = vyhledavanimax(p,l,r,m);
+                        idaprvek[1] = vyhledavanimax(p,l,r,m,j+i);
                         idaprvek[0] = 0+i;
                     }
                     else {
@@ -127,27 +130,27 @@ public class Intersect {
         return idaprvek;
 //          menší maximum -> prvky dané posloupnosti budo hledány ve druhé
     }
-    public static int vyhledavanimax(int p[][], int l, int r, int m){
+    public static int vyhledavanimax(int p[][], int l, int r, int m,int j){
         int k = (l+r)/2;
         if(r-l <= 1){
-            if (p[0][r]==m){
+            if (p[0+j][r]==m){
                 return r;
             }
-            else if(p[0][l]==m){
+            else if(p[0+j][l]==m){
                 return l;
             }
             else {
-                return r;
+                return l;
             }
         }
-        if(m == p[0][k]){
+        if(m == p[0+j][k]){
             return k;
         }
-        else if (m > p[0][k]){
-            return vyhledavanimax(p,k,r,m);
+        else if (m > p[0+j][k]){
+            return vyhledavanimax(p,k,r,m,j);
         }
         else {
-            return vyhledavanimax(p,l,k,m);
+            return vyhledavanimax(p,l,k,m,j);
         }  
     }
 }
