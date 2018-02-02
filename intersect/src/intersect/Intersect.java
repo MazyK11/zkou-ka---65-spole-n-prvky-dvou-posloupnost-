@@ -21,7 +21,6 @@ public class Intersect {
         int k = 1;
         int p [][] = new int [2][(int) Math.pow(10,k)];
         rnd(k,p);
-
         
         Arrays.sort(p[0]);
         Arrays.sort(p[1]);
@@ -58,10 +57,10 @@ public class Intersect {
             p[1][i] = numbers.nextInt(10);
         }
     }
-    /** Metoda pro výběr vhodnější posloupnosti pro hledání
+    /** Metoda, která charakterizuje vztahy mezi minimy a maximy posloupností
      * @param p - dvourozměrné pole reprezentující posloupnosti
-     * @return číslo sudé nebo liché, které označuje vhodnější posloupnost
-     * odečíst - ? možnost 2
+     * @return pole s čísly od 0 do 2, které reprezentují vztah mezi
+     * minimy a maximy
      */  
     public static int[] min(int p[][]){
         int minmax[] = new int [2];
@@ -75,7 +74,7 @@ public class Intersect {
         else{
             minmax[0] = 2;
         }
-        
+//      menší maximum i minimum -> budu hledat prvky z dané posloupnosti   
         if(p[0][p[0].length-1] < p[1][p[1].length-1]){
             minmax[1] = 0;
         }
@@ -87,9 +86,19 @@ public class Intersect {
         }
         return minmax;
     }
+    /** Metoda pro výběr vhodnější posloupnosti pro hledání stejných čísel
+     * @param p - dvourozměrné pole reprezentující posloupnosti
+     * @param minmax - pole, které obsahuje vztahy mezi minimy a maximy
+     * posloupností
+     * @return - pole s informací o vhodnější posloupnosti a případně s pozicí
+     * menšího maxima v druhé posloupnosti
+     */  
     public static int []vhodnost(int p[][], int minmax[]){
-        int idaprvek[] = new int [2];  
+        int idaprvek[] = new int [2];
+        idaprvek[1] = -1;
         int j=0;
+//      Pokud jsou minima stejná, využiji vztah maxim a zavolám metodu
+//      vyhledavanimax. 
         if(minmax[0]==2){
             if(minmax[1] == 0){
                 int l = 0;
@@ -107,6 +116,8 @@ public class Intersect {
                 idaprvek[0] = 0;
             }
         }
+//      pokud minima nejsou stejná, pokračuji porovnáním všech možností, abych
+//      nalezl nejvhodnější interval pro vyhledávání
         else{
             for(int i =0;i<2;i++){
                 if(minmax[0]==i){
@@ -128,8 +139,15 @@ public class Intersect {
             }
         }
         return idaprvek;
-//          menší maximum -> prvky dané posloupnosti budo hledány ve druhé
     }
+    /** Metoda pro vyhledávání pozice menšího maxima v druhé posloupnosti
+     * @param p - dvourozměrné pole reprezentující posloupnosti
+     * @param l - levá strana intervalu.
+     * @param r - pravá strana intervalu.
+     * @param m - hledané menší maximum 
+     * @param j - index pro změnu posloupnosti, v které hledáme
+     * @return -  pozice, do které je nutné hledat stejná čísla.
+     */  
     public static int vyhledavanimax(int p[][], int l, int r, int m,int j){
         int k = (l+r)/2;
         if(r-l <= 1){
@@ -140,7 +158,9 @@ public class Intersect {
                 return l;
             }
             else {
-                return l;
+//              pokud zde maximum není, je mu přiřazena pozice na které by se
+//              vyskytovalo při jeho doplnění do posloupnosti
+                return r;
             }
         }
         if(m == p[0+j][k]){
