@@ -57,8 +57,8 @@ public class Intersect {
         Random numbers = new Random();
         for(int i =0;i<Math.pow(10,k);i++){
 //          interval čísel pro generování 
-            p[0][i] = numbers.nextInt(10);
-            p[1][i] = numbers.nextInt(10);
+            p[0][i] = numbers.nextInt(100);
+            p[1][i] = numbers.nextInt(100);
         }
     }
     /** Metoda, která charakterizuje vztahy mezi minimy a maximy posloupností
@@ -209,7 +209,7 @@ public class Intersect {
             int h = vyhledavani(p,l,r,m,j,exist);
             if (exist[0] != -1){
                 intersect [i-g] = p[j][h];
-//                p[j][h] = p[j][0];    
+                p[j][h] = p[j][0];    
             }
             else {
                 g++;
