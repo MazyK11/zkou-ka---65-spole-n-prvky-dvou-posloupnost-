@@ -18,7 +18,7 @@ public class Intersect {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        int k = 1;
+        int k = 2;
         int p [][] = new int [2][(int) Math.pow(10,k)];
         rnd(k,p);
         
@@ -209,18 +209,18 @@ public class Intersect {
             int h = vyhledavani(p,l,r,m,j,exist);
             if (exist[0] != -1){
                 intersect [i-g] = p[j][h];
-                p[j][h] = p[1-j][0];
+//                p[j][h] = p[j][0];    
             }
             else {
                 g++;
             }
         }        
-        int in [] = new int [mmax-g];
-        for(int i=0;i<in.length;i++){
-            in[i] = intersect[i]; 
-        }
+//        int in [] = new int [mmax-g];
+//        for(int i=0;i<in.length;i++){
+//            in[i] = intersect[i]; 
+//        }
         System.out.print("\n");
-        for(int i = 0;i<in.length;i++){
+        for(int i = 0;i<mmax-g;i++){
             System.out.format("%d ",intersect[i]);
         }
         
