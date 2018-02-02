@@ -38,11 +38,11 @@ public class Intersect {
         System.out.print(minmax[0]);
         System.out.print("\n");
         System.out.print(minmax[1]);
-        int l[] = vhodnost(p,minmax);
+        int idapozice[] = vhodnost(p,minmax);
         System.out.print("\n");
-        System.out.print(l[0]);
+        System.out.print(idapozice[0]);
         System.out.print("\n");
-        System.out.print(l[1]);
+        System.out.print(idapozice[1]);
       
     }
     /** Metoda pro generování náhodných čísel
@@ -172,5 +172,8 @@ public class Intersect {
         else {
             return vyhledavanimax(p,l,k,m,j);
         }  
+    }
+    public static void hledanicisel(int p[][],int idapozice[]){
+        
     }
 }
