@@ -12,7 +12,7 @@ import java.util.Random;
  *
  * @author MazyK
  */
-public class stop {
+public class Intersect {
 
     /**
      * @param args the command line arguments
