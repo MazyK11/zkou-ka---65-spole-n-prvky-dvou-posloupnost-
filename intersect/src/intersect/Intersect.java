@@ -25,9 +25,7 @@ public class Intersect {
 //      seřazení posloupností pro lepší hledání
         Arrays.sort(p[0]);
         Arrays.sort(p[1]);
-//          int p[][] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}};
-
-//      výpis řad pro vizuální kontrolu u malých řad
+//      výpis polí pro vizuální kontrolu u malých posloupností
         for(int i = 0;i<p[0].length;i++){
             System.out.format("%d ",p[0][i]);
         }
@@ -35,7 +33,6 @@ public class Intersect {
         for(int i = 0;i<p[1].length;i++){
             System.out.format("%d ",p[1][i]);
         }
-
 //      volání metody min
         int minmax[] = min(p);
 //      vytvoření promněnných pro podmínky při hledání
@@ -45,7 +42,12 @@ public class Intersect {
 //      volání metody vhodnost
         int idapozice[] = new int [2];
         vhodnost(p,minmax,idapozice,exist,t,a);
-        intersect(p,exist,idapozice,t,a);
+        int intersect [] = intersect(p,exist,idapozice,t,a);
+//      výpis pole pro vizuální kontrolu u malých posloupností
+        System.out.print("\n");
+        for(int i = 0;i<intersect.length;i++){
+            System.out.format("%d ",intersect[i]);
+        }
       
     }
     /** Metoda pro generování náhodných čísel
@@ -55,9 +57,9 @@ public class Intersect {
     public static void rnd(int k, int p[][]){
         Random numbers = new Random();
         for(int i =0;i<Math.pow(10,k);i++){
-//          interval čísel pro generování 
-            p[0][i] = numbers.nextInt(100);
-            p[1][i] = numbers.nextInt(100);
+//          upravitelný interval čísel pro generování 
+            p[0][i] = numbers.nextInt(10);
+            p[1][i] = numbers.nextInt(10);
         }
     }
     /** Metoda, která charakterizuje vztahy mezi minimy a maximy posloupností
@@ -216,15 +218,32 @@ public class Intersect {
             return vyhledavani(p,l,k,m,j,exist,t,a);
         }  
     }
-    public static void intersect(int p[][],int exist [], int idapozice [],
+    /** Metoda, pro určění velikosti intervalu, ze kterého se bude hledat a
+     * pro následné volání vyhledávací funkce.
+     * @param p - dvourozměrné pole reprezentující posloupnosti
+     * @param exist - parametr, který určuje, jestli číslo v posloupnosti
+     * existuje nebo ne
+     * @param idapozice -pole, které nese informaci o vhodnější posloupnosti
+     * pro hledání a potencionální horní hranici, do které se budou čísla hledat
+     * @param t - index, který kontroluje zda byla danná pozice již využita
+     * @param a - index, který pomáhá najít duplicitní čísla
+     * @return -  pole s výslednými stejnými prvky v obou posloupnostech.
+     */  
+    public static int [] intersect(int p[][],int exist [], int idapozice [],
             int t[], int []a){
+//      vytvoření proměnných, které budou následně použity
         int l = 0;int r;int j =0;int mmax;int g =0;
+//      identifikace vhodnější posloupnosti, ze které se budou vyhledávat čísla
+//      a určení horní hranice, do které se budou čísla hledat
         if (idapozice[0] == 0){
             j++;
             r = p[1].length-1;
+//          pokud bylo maximum dané posloupnosti menší, horní hranice je maximum
             if(idapozice[1] == -1){
                mmax = p[0].length;
             }
+//          pokud ne, horní hranice je vyhledaná pozice druhého maxima
+//          v této posloupnosti
             else {
                 mmax = idapozice[1]+1;
             }
@@ -239,34 +258,39 @@ public class Intersect {
             }
         }
         int intersect [] = new int [mmax];
+//      vyhledávám postupně prvky z vybrané posloupnosti až do horní hranice
         for(int i =0;i<mmax;i++){
             exist[0] = -2;
             int m = p[1-j][i];
-            int h = vyhledavani(p,l,r,m,j,exist,t,a);
+            int pozice = vyhledavani(p,l,r,m,j,exist,t,a);
+//          pokud číslo neni v druhé posloupnosti, neproběhne zápis do pole
             if (exist[0] == -1){
-//                a[0] =1;
+//              g zamezuje "dírám v poli"
                 g++;
             }
             else {
-                intersect [i-g] = p[j][h];
-                if(t[0] != h+a[0]){
+                intersect [i-g] = p[j][pozice];
+//              restart indexu pro duplicitní čísla pokud neexistuje
+//              další duplicitní číslo směrem zpět
+                if(t[0] != pozice+a[0]){
                     a[0] =0;
                 }
-                t[0] = h+a[0];
+//              nastavení vyhledané pozice v tomto cyklu
+                t[0] = pozice+a[0];
+//              -3 -> bylo zapsáno duplicitní číslo směrem dopředu od 
+//              vyhledané hodnoty - změna hodnoty, aby nemohlo být započítáno
+//              dvakrát
                 if (exist[0] == -3){
-                    p[j][h] = p[j][0] -1;
+                    p[j][pozice] = p[j][0] -1;
                 }
             }
-        }        
-//        int in [] = new int [mmax-g];
-//        for(int i=0;i<in.length;i++){
-//            in[i] = intersect[i]; 
-//        }
-        System.out.print("\n");
-        for(int i = 0;i<mmax-g;i++){
-            System.out.format("%d ",intersect[i]);
         }
-        
+//      kopírování do nového pole, aby zmizela prázdná místa na konci        
+        int in [] = new int [mmax-g];
+        for(int i=0;i<in.length;i++){
+            in[i] = intersect[i]; 
+        }
+        return in;        
     }
      /** Metoda pro řešení duplicitních čísel
      * @param p - dvourozměrné pole reprezentující posloupnosti
