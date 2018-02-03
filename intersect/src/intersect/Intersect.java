@@ -58,8 +58,8 @@ public class Intersect {
         Random numbers = new Random();
         for(int i =0;i<Math.pow(10,k);i++){
 //          upravitelný interval čísel pro generování 
-            p[0][i] = numbers.nextInt(10);
-            p[1][i] = numbers.nextInt(10);
+            p[0][i] = numbers.nextInt(100);
+            p[1][i] = numbers.nextInt(100);
         }
     }
     /** Metoda, která charakterizuje vztahy mezi minimy a maximy posloupností
