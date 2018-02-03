@@ -27,7 +27,7 @@ public class Intersect {
         Arrays.sort(p[1]);
 //          int p[][] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}};
 
-        
+//      výpis řad pro vizuální kontrolu u malých řad
         for(int i = 0;i<p[0].length;i++){
             System.out.format("%d ",p[0][i]);
         }
@@ -56,8 +56,8 @@ public class Intersect {
         Random numbers = new Random();
         for(int i =0;i<Math.pow(10,k);i++){
 //          interval čísel pro generování 
-            p[0][i] = numbers.nextInt(10);
-            p[1][i] = numbers.nextInt(10);
+            p[0][i] = numbers.nextInt(100);
+            p[1][i] = numbers.nextInt(100);
         }
     }
     /** Metoda, která charakterizuje vztahy mezi minimy a maximy posloupností
@@ -96,7 +96,9 @@ public class Intersect {
      * @param idapozice - pole, které na první pozici získá číslo vhodnější
      * posloupnosti a na druhé pozici získá číslo pozice menšího maxima,
      * pokud se nachází v odlišné posloupnosti než větší minimum
-     * 
+     * @param exist - parametr pro metodu vyhledavani
+     * @param t - parametr pro metodu vyhledavani
+     * @param a - parametr pro metodu vyhledavani
      */  
     public static void vhodnost(int p[][], int minmax[],int idapozice[],
             int exist[], int t[], int a[]){
@@ -159,45 +161,34 @@ public class Intersect {
      * @param j - index pro změnu posloupnosti, v které hledáme
      * @param exist - parametr, který určuje, jestli číslo v posloupnosti
      * existuje nebo ne
-     * Metoda funguje na principu binárního vyhledávání
+     * @param t - index, který kontroluje zda byla danná pozice již využita
+     * @param a - index, který pomáhá najít duplicitní čísla
      * @return -  pozice hledaného čísla.
+     * Metoda funguje na principu binárního vyhledávání
      */  
     public static int vyhledavani(int p[][], int l, int r, int m,int j,
             int [] exist, int [] t, int [] a){
+//      parametr s, pro metodu podminka
         int s =0;
+//      k -> pivot (půlka intervalu)
         int k = (l+r)/2;
+//      Ukončovací podmínka - hledané číslo je buď, hranice pravého nebo levého
+//      intervalu. Nebo se v dané posloupnosti nevyskytuje
         if(r-l <= 1){
             if (p[0+j][r]==m){
+//              podmínka pro duplicitu
                 if (t[0] == r){
                     k =r;
                     s =1;
-                    return podminka(t,a,exist,p,j,k,s);
-//                    a[0]++;
-//                    if(0 <= r-a[0]){
-//                        if(p[0+j][r]==p[0+j][r-a[0]]){
-//                            return r-a[0];
-//                        }
-//                    }    
-//                    exist[0] = -1;
+                    return podminka(a,exist,p,j,k,s);
                 }
                 return r;
             }
             else if(p[0+j][l]==m){
+//              podmínka pro duplicitu 
                 if (t[0] == l){
                     k = l;
-                    return podminka(t,a,exist,p,j,k,s);
-//                    a[0]++;
-//                    if(0 <= l-a[0]){
-//                        if(p[0+j][l]==p[0+j][l-a[0]]){
-//                            return l-a[0];
-//                        }
-//                    }    
-//                    if(p[0+j][l]==p[0+j][l+1]){
-//                    p[j][l] = p[j][0] -1;
-//                        exist[0] = -3;
-//                        return l+1;
-//                    }
-//                    exist[0] = -1;
+                    return podminka(a,exist,p,j,k,s);
                 }
                 return l;
             }
@@ -205,29 +196,19 @@ public class Intersect {
 //              -1 -> číslo se v posloupnosti nevyskytuje
                 exist[0] = -1;
 //              pokud zde číslo není, je mu přiřazena pozice na které by se
-//              vyskytovalo při jeho doplnění do posloupnosti
+//              vyskytovalo při jeho doplnění do posloupnosti -> využito pro
+//              maxima
                 return r;
             }
         }
         if(m == p[0+j][k]){
+//          podmínka pro duplicitu
             if (t[0] == k){
-                return podminka(t,a,exist,p,j,k,s);
-//                a[0]++;
-//                if(0 <= k-a[0]){
-//                    if(p[0+j][k]==p[0+j][k-a[0]]){
-//                    return k-a[0];
-//                    }
-//                }
-//                    if(p[0+j][k]==p[0+j][k+1]){
-//                    p[j][k] = p[j][0] -1;
-//                    exist[0] = -3;
-//                        return k+1;
-//                    }
-//                exist[0] = -1;
-//                p[j][k] = p[j][0] -1;
+                return podminka(a,exist,p,j,k,s);
             }
             return k;
         }
+//      rekurze -> zmenšuji intervaly pro hledání dokud rozdíl neni menší než 1
         else if (m > p[0+j][k]){
             return vyhledavani(p,k,r,m,j,exist,t,a);
         }
@@ -287,21 +268,36 @@ public class Intersect {
         }
         
     }
-    public static int podminka(int t[],int a[], int exist[], int p[][], int j,
+     /** Metoda pro řešení duplicitních čísel
+     * @param p - dvourozměrné pole reprezentující posloupnosti
+     * @param s - index, který zaručuje, aby program nesáhl za hranici pole
+     * @param k - pozice čísla v posloupnosti
+     * @param a - index, který pomáhá najít duplicitní čísla
+     * @param j - index pro změnu posloupnosti, v které hledáme
+     * @param exist - parametr, který určuje, jestli číslo v posloupnosti
+     * existuje nebo ne
+     * @return -  pozice duplicitního čísla
+     */ 
+    public static int podminka(int a[], int exist[], int p[][], int j,
     int k, int s){
         a[0]++;
+//      podmínka pro hledání duplicitního čísla směrem zpět
         if(0 <= k-a[0]){
             if(p[0+j][k]==p[0+j][k-a[0]]){
             return k-a[0];
             }
         }
+//      podmínka pro hledání duplicitního čísla směrem dopředu
         if(s == 0){
             if(p[0+j][k]==p[0+j][k+1]){
+//          změna hodnoty vyhledané pozice -> binární hledání se tedy
+//          již k této hodnotě nevrátí
             p[j][k] = p[j][0] -1;
             exist[0] = -3;
                 return k+1;
             }
         }
+//      Číslo nemá duplicitu -> změna hodnoty vyhledané pozice
         exist[0] = -1;
         p[j][k] = p[j][0] -1;
         return k;
