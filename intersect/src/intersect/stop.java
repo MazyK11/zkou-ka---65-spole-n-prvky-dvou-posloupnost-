@@ -35,7 +35,7 @@ public class stop {
         }
 //      volání metody min
         int minmax[] = min(p);
-//      vytvoření promněnných pro podmínky při hledání
+//      vytvoření proměnných pro podmínky při hledání
         int exist[] = {0};
         int[] repeat = {-1};
         int[] duplicity = {0};
@@ -105,8 +105,8 @@ public class stop {
     public static void vhodnost(int p[][], int minmax[],int idapozice[],
             int exist[], int[] repeat, int[] duplicity){
         idapozice[1] = -1;
-//      index j - mění posloupnost z té, ve které se hledá číslo na posloupnost,
-//      z které se hledá číslo
+//      index j - mění posloupnost z té, ve které se hledá číslo, na posloupnost,
+//      ze které se hledá číslo
         int j=0;
 //      Pokud jsou minima stejná, využiji vztah maxim a zavolám metodu
 //      vyhledavani -> naleznu pozici menšího maxima v druhé posloupnosti
@@ -164,7 +164,7 @@ public class stop {
      * @param j - index pro změnu posloupnosti, v které hledáme
      * @param exist - parametr, který určuje, jestli číslo v posloupnosti
      * existuje nebo ne
-     * @param repeat - index, který kontroluje zda byla danná pozice již využita
+     * @param repeat - index, který kontroluje, zda byla daná pozice již využita
      * @param duplicity - index, který pomáhá najít duplicitní čísla
      * @return -  pozice hledaného čísla.
      * Metoda funguje na principu binárního vyhledávání
@@ -198,7 +198,7 @@ public class stop {
             else {
 //              -1 -> číslo se v posloupnosti nevyskytuje
                 exist[0] = -1;
-//              pokud zde číslo není, je mu přiřazena pozice na které by se
+//              pokud zde číslo není, je mu přiřazena pozice, na které by se
 //              vyskytovalo při jeho doplnění do posloupnosti -> využito pro
 //              maxima
                 return r;
@@ -211,7 +211,7 @@ public class stop {
             }
             return k;
         }
-//      rekurze -> zmenšuji intervaly pro hledání dokud rozdíl neni menší než 1
+//      rekurze -> zmenšuji intervaly pro hledání, dokud rozdíl není menší než 1
         else if (m > p[0+j][k]){
             return vyhledavani(p,k,r,m,j,exist,repeat,duplicity);
         }
@@ -219,14 +219,14 @@ public class stop {
             return vyhledavani(p,l,k,m,j,exist,repeat,duplicity);
         }  
     }
-    /** Metoda, pro určění velikosti intervalu, ze kterého se bude hledat a
+    /** Metoda, pro určení velikosti intervalu, ze kterého se bude hledat a
      *  pro následné volání vyhledávací funkce.
      * @param p - dvourozměrné pole reprezentující posloupnosti
      * @param exist - parametr, který určuje, jestli číslo v posloupnosti
      * existuje nebo ne
      * @param idapozice -pole, které nese informaci o vhodnější posloupnosti
      * pro hledání a potencionální horní hranici, do které se budou čísla hledat
-     * @param repeat - index, který kontroluje zda byla danná pozice již využita
+     * @param repeat - index, který kontroluje, zda byla daná pozice již využita
      * @param duplicity - index, který pomáhá najít duplicitní čísla
      * @return -  pole stop výslednými stejnými prvky v obou posloupnostech.
      */  
@@ -264,7 +264,7 @@ public class stop {
             exist[0] = -2;
             int m = p[1-j][i];
             int pozice = vyhledavani(p,l,r,m,j,exist,repeat,duplicity);
-//          pokud číslo neni v druhé posloupnosti, neproběhne zápis do pole
+//          pokud číslo není v druhé posloupnosti, neproběhne zápis do pole
             if (exist[0] == -1){
 //              hole - zamezuje "dírám v poli"
                 hole++;
