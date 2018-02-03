@@ -160,6 +160,15 @@ public class Intersect {
         int k = (l+r)/2;
         if(r-l <= 1){
             if (p[0+j][r]==m){
+                if (t[0] == r){
+                    a[0]++;
+                    if(0 <= r-a[0]){
+                        if(p[0+j][r]==p[0+j][r-a[0]]){
+                            return r-a[0];
+                        }
+                    }    
+                    exist[0] = -1;
+                }
                 return r;
             }
             else if(p[0+j][l]==m){
@@ -171,7 +180,8 @@ public class Intersect {
                         }
                     }    
                     if(p[0+j][l]==p[0+j][l+1]){
-                    p[j][l] = p[j][0] -1;                    
+                    p[j][l] = p[j][0] -1;
+                        exist[0] = -3;
                         return l+1;
                     }
                     exist[0] = -1;
@@ -194,7 +204,8 @@ public class Intersect {
                     }
                 }
                 if(p[0+j][k]==p[0+j][k+1]){
-                p[j][k] = p[j][0] -1;                    
+                p[j][k] = p[j][0] -1;
+                exist[0] = -3;
                     return k+1;
                 }
                 exist[0] = -1;
@@ -237,16 +248,19 @@ public class Intersect {
             exist[0] = -2;
             int m = p[1-j][i];
             int h = vyhledavani(p,l,r,m,j,exist,t,a);
-            if (exist[0] != -1){
-                intersect [i-g] = p[j][h];
-//                p[j][h] = p[j][0];
-                if(t[0] != h+a[0]){
-                    a[0] =0;
-                 }
-                 t[0] = h+a[0];
+            if (exist[0] == -1){
+//                a[0] =0;
+                g++;
             }
             else {
-                g++;
+                intersect [i-g] = p[j][h];
+                if(t[0] != h+a[0]){
+                    a[0] =0;
+                }
+                t[0] = h+a[0];
+                if (exist[0] == -3){
+                    p[j][h] = p[j][0] -1;
+                }
             }
         }        
 //        int in [] = new int [mmax-g];
