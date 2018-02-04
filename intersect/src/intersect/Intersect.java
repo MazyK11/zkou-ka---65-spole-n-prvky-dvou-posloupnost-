@@ -26,6 +26,7 @@ public class Intersect {
         Arrays.sort(p[0]);
         Arrays.sort(p[1]);
 //      výpis polí pro vizuální kontrolu u malých posloupností
+        System.out.print("Posloupnosti\n");
         for(int i = 0;i<p[0].length;i++){
             System.out.format("%d ",p[0][i]);
         }
@@ -33,6 +34,7 @@ public class Intersect {
         for(int i = 0;i<p[1].length;i++){
             System.out.format("%d ",p[1][i]);
         }
+        System.out.print("\n");
 //      volání metody min
         int minmax[] = min(p);
 //      vytvoření proměnných pro podmínky při hledání
@@ -44,7 +46,7 @@ public class Intersect {
         vhodnost(p,minmax,idapozice,exist,repeat,duplicity);
         int intersect [] = intersect(p,exist,idapozice,repeat,duplicity);
 //      výpis pole pro vizuální kontrolu u malých posloupností
-        System.out.print("\n");
+        System.out.print("Společné prvky\n");
         for(int i = 0;i<intersect.length;i++){
             System.out.format("%d ",intersect[i]);
         }
