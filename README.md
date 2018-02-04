@@ -18,4 +18,4 @@ Můj kód zvládá velikosti posloupností až 108 v intervalu čísel od minim�
 ## Problematická místa
 
 Největším problémem v celém kódu bylo řešení duplicitních čísel. Například jedna posloupnost měla 40 stejných čísel a druhá 35 těchto čísel. V kódu na to existuje samostatná metoda, ale bylo potřeba dalších tří indexů, které nejsou moc intuitivní, abych problém vyřešil.  
-                                                                                                                    Dominik Mazur
+                                                                                                               Dominik Mazur
